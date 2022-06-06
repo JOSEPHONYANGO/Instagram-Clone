@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'auth'
+    'authen'
 ]
 
 MIDDLEWARE = [
@@ -117,7 +117,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
 STATIC_URL = 'static/'
-STATICFILES_DIRS = (BASE_DIR,'insta-clone/static/')
+STATICFILES_DIRS = (BASE_DIR,'instagram/static/')
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = (BASE_DIR,'media')
