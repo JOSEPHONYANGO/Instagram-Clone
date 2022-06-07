@@ -34,9 +34,9 @@ class Profile(models.Model):
 
     @classmethod
     def search_profile(cls, search_item):
-        return cls.objects.filter        (user_username_icontains = search_term).all()
-        def _str_(self):
-            return f"{self.user.first_name}'s Profile"    
+        return cls.objects.filter(user_username_icontains=search_term).all()
+    def _str_(self):
+        return f"{self.user.first_name}'s Profile"    
 
 class Post(models.Model):
     image = CloudinaryField('images')
@@ -79,8 +79,7 @@ class Comment(models.Model):
 
     @classmethod
     def get_comments(cls,id):
-        comments = cls.objects.filter
-        (post-id=id)
+        comments = cls.objects.filter(post_id=id)
         return comments 
 
     def _str_(self):
