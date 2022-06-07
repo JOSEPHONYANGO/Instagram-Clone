@@ -35,6 +35,87 @@ def index(request):
 
     return render(request, 'index.html',context)
 
+def register_user(request):
+    if request.user.is_authenticated:
+        return redirect ('/') 
+
+    else:
+        form = CreateUserForm
+        title = 'New Account'
+
+        if request.method == 'POST':
+            form = CreateUserForm(request.POST)
+            if form.is_valid():
+                form.save()
+                return redirect('login')
+
+    context = {'form': form, 'title': title}
+    return render(request, 'accounts/registration.html', context)
+
+def login_user(request):
+    if request.user.is_authenticated:
+        return redirect('/')
+
+    else:
+
+        if request.method == 'POST':
+            username = request.POST.get('username')
+            password = request.POST.get('password')
+
+            user = authenticate(request, username=username, password=password)
+
+            if user is not None:
+                login(request, user)
+                return redirect('/')
+            else:
+                messages.info(request, 'Username or password is incorrect.')
+
+    context = {}
+    return render(request, 'accounts/login.html', context)
+
+def logout_user(request):
+    logout(request)
+    return redirect('login')
+
+def comment(request, post_id):
+    post = Post.objects.get(id=post_id)
+
+    if request.method == 'POST':
+        comment_form = CommentForm(request.POST, request.FILES)
+        if comment_form.is_valid():
+            comment_form.instance.user = request.user.profile
+            comment_form.instance.post = post
+
+            comment_form.save()
+
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+@login_required(login_url='login')
+def like(request, post_id):
+    user = request.user
+    post = Post.objects.get(pk=post_id)
+    like = Like.objects.filter(user=user, post=post)
+    if like:
+        like.delete()
+    else:
+        new_like = Like(user=user, post=post)
+        new_like.save()
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+@login_required(login_url='login')
+def follow(request, user_id):
+    user = request.user
+    other_user = User.objects.get(pk=user_id)
+    follow = Follow.objects.filter(follower=user, followed=other_user)
+    if follow:
+        follow.delete()
+    else:
+        new_follow = Follow(follower=user, followed=other_user)
+        new_follow.save()
+
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+            
+
 
 
 # Create your views here.
