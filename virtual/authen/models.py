@@ -80,13 +80,23 @@ class Comment(models.Model):
     @classmethod
     def get_comments(cls,id):
         comments = cls.objects.filter
-        (post__id=id)
+        (post-id=id)
         return comments 
 
     def _str_(self):
          return self.comment
 
     class Meta:
-        ordering=["-pk"]             
+        ordering=["-pk"]  
+
+class Follow(models.Model):
+    follower=models.ForeignKey(User,related_name='followers',on_delete=models.CASCADE)
+    followed=models.ForeignKey(User,related_name='followed',on_delete=models.CASCADE)
+
+    def __str__(self): 
+        return self.follower
+
+class Like(models.Model):
+    user = models.ForeignKey(User,related_name='likes',on_delete=models.CASCADE)                          
 
 
