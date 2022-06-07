@@ -15,8 +15,26 @@ from django.contrib import messages
 def index(request):
 
     posts = Post.objects.all()
-    all_users = User.ojects.exclude
-    (id=request.user.id)
+    all_users = User.objects.exclude(id=request.user.id)
     liked_posts = [i for i in Post.objects.all() if Like.objects.filter(user = request.user, post=i)]
+    followed = [i for i in User.objects.all() if Follow.objects.filter(follower = request.user, followed=i)]
+
+    if request.method == 'POST':
+        upload_form = UploadImageForm(request.POST, request.FILES)
+
+        if upload_form.is_valid():
+            upload_form.instance.user = request.user.profile
+            upload_form.save()
+
+            return redirect('index')
+
+    else:
+        upload_form = UploadImageForm()
+
+    context = {'upload_form': upload_form, 'posts':posts, 'liked_posts': liked_posts, 'all_users':all_users, 'followed': followed}
+
+    return render(request, 'index.html',context)
+
+
 
 # Create your views here.
