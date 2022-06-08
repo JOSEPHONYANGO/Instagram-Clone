@@ -35,7 +35,7 @@ def index(request):
 
     return render(request, 'index.html',context)
 
-def register_user(request):
+def accounts_register(request):
     if request.user.is_authenticated:
         return redirect ('/') 
 
