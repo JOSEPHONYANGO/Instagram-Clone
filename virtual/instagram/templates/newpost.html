@@ -1,179 +1,159 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Hello Bulma!</title>
-    <link rel="stylesheet" href="css/bulma.min.css">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
-      rel="stylesheet">
-  </head>
-  <body>
-    <nav class="navbar" role="navigation" aria-label="main navigation">
-        <div class="navbar-brand">
-          <a class="navbar-item" href="https://bulma.io">
-            <img src="images/instagram.png" width="62" height="48">
-          </a>
-      
-          <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
-            <span aria-hidden="true"></span>
-            <span aria-hidden="true"></span>
-            <span aria-hidden="true"></span>
-          </a>
-        </div>
-      
-        <div id="navbarBasicExample" class="navbar-menu">
-          <div class="navbar-start">
-            <a class="navbar-item">
-              Home
-            </a>
-      
-            <a class="navbar-item">
-              Explore
-            </a>
-            <a class="navbar-item">
-                Notifications
-              </a>
-              <a class="navbar-item">
-                Inbox
-              </a>
-              <a class="navbar-item">
-                Profile
-              </a>
-      
-            <div class="navbar-item has-dropdown is-hoverable">
-              <a class="navbar-link">
-                Settings
-              </a>
-      
-              <div class="navbar-dropdown">
-                <a class="navbar-item">
-                  Change Password
-                </a>
-                <a class="navbar-item">
-                  Contact
-                </a>
-                <a class="navbar-item">
-                  Report an Issue
-                </a>
-                <hr class="navbar-divider">
-                <a class="navbar-item">
-                  Log Out
-                </a>
-              </div>
-            </div>
-          </div>
-      
-         
-        </div>
-      </nav>
-      <br>
-  <section class="section">
-    <div class="container">
-        <div class="columns is-mobile is-centered">
-            <div class="column">
+{% extends 'base.html'%}
+{% load static %}
+{% load bootstrap5 %}
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
 
-        <div class="card">
-            <div class="card-image">
-              <figure class="image is-4by3">
-                <img src="https://bulma.io/images/placeholders/1280x960.png" alt="Placeholder image">
-              </figure>
-            </div>
-            <div class="card-content">
-              <div class="media">
-                <div class="media-left">
-                  <figure class="image is-48x48">
-                    <img src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image">
-                  </figure>
-                </div>
-                <div class="media-content">
-                  <p class="title is-4">John Smith</p>
-                  <p class="subtitle is-6">@johnsmith</p>
-                </div>
-              </div>
-          
-              <div class="content">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                Phasellus nec iaculis mauris. <a>@bulmaio</a>.
-                <a href="#">#css</a> <a href="#">#responsive</a>
-                <br>
-                <time datetime="2016-1-1">11:09 PM - 1 Jan 2016</time>
-              </div>
-            </div>
-          </div>
-            </div>
-        </div>
+{% block content %}
 
-        <div class="columns is-mobile is-centered">
-            <div class="column">
 
-        <div class="card">
-            <div class="card-image">
-              <figure class="image is-4by3">
-                <img src="https://bulma.io/images/placeholders/1280x960.png" alt="Placeholder image">
-              </figure>
-            </div>
-            <div class="card-content">
-              <div class="media">
-                <div class="media-left">
-                  <figure class="image is-48x48">
-                    <img src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image">
-                  </figure>
-                </div>
-                <div class="media-content">
-                  <p class="title is-4">John Smith</p>
-                  <p class="subtitle is-6">@johnsmith</p>
-                </div>
-              </div>
-          
-              <div class="content">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                Phasellus nec iaculis mauris. <a>@bulmaio</a>.
-                <a href="#">#css</a> <a href="#">#responsive</a>
-                <br>
-                <time datetime="2016-1-1">11:09 PM - 1 Jan 2016</time>
-              </div>
-            </div>
-          </div>
 
-          <article class="media">
-            <figure class="media-left">
-              <p class="image is-64x64">
-                <img src="https://bulma.io/images/placeholders/128x128.png">
-              </p>
-            </figure>
-            <div class="media-content">
-              <div class="content">
-                <p>
-                  <strong>John Smith</strong> <small>@johnsmith</small> <small>31m</small>
-                  <br>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ornare magna eros, eu pellentesque tortor vestibulum ut. Maecenas non massa sem. Etiam finibus odio quis feugiat facilisis.
-                </p>
-              </div>
-              <nav class="level is-mobile">
-                <div class="level-left">
-                  <a class="level-item">
-                    <span class="icon is-small"><i class="fas fa-reply"></i></span>
-                  </a>
-                  <a class="level-item">
-                    <span class="icon is-small"><i class="fas fa-retweet"></i></span>
-                  </a>
-                  <a class="level-item">
-                    <span class="icon is-small"><i class="fas fa-heart"></i></span>
-                  </a>
+<div class="container-fluid-lg">
+    <div class="container-lg" id="contentWrapper">
+        <div class="row">
+            <div id="main" class="col-lg-8 col-md-12 my-4">
+
+                {% include 'statuses.html'%}
+
+                <div class="upload-form">
+                    <form action="{% url 'new_post'%}" method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {% bootstrap_form upload_form %}
+                        <button type="submit" class="btn btn-outline-primary">Post</button>
+                    </form>
                 </div>
-              </nav>
+
+                <!-- FEED -->
+                {% for post in posts %}
+                <div class="card mt-4 post">
+                    <div class="post-header px-4 py-3">
+                        <div class="post-header-left">
+                            <div class="post-header-profilepic">
+                                <img src="https://townsquare.media/site/812/files/2020/10/nicki-minaj1.jpg?w=1200"
+                                    alt="" class="img-fluid">
+                            </div>
+                            <div class="post-header-username mx-2">
+                                <small><strong>{{ post.user.user.username }}</strong></small>
+                            </div>
+                        </div>
+                        <div class="post-header-right">
+                            <h5><a href="#">...</a></h5>
+                        </div>
+                    </div>
+                    <div class="post-content" data-bs-toggle="modal" data-bs-target="#imageModal"
+                        data-url="{{ post.image.url }}">
+                        <img src="{{ post.image.url }}" alt="">
+                    </div>
+
+                    <div class="post-footer">
+                        <div class="post-footer-icons d-flex justify-content-between p-2">
+                            <div class="post-footer-icons-left">
+                                <a href="#"><i class='bx bx-heart px-2 ms-0'></i></a>
+                                <a href="#"><i class='bx bx-message-rounded px-2'></i></a>
+                                <a href="#"><i class='bx bx-paper-plane px-2'></i></a>
+                            </div>
+                            <div class="post-footer-icons-right">
+                                <a href="#"><i class='bx bx-bookmark px-2'></i></a>
+                            </div>
+                        </div>
+                        <div class="post-footer-details px-2 my-0">
+                            <p><strong> {{ post.likes.count }} like{{ post.likes.count | pluralize}}</strong></p>
+                            <p><strong>{{ post.user.user.username }}</strong> {{ post.description }}<span
+                                    class="text-muted">more</span>
+                            </p>
+                            <p><a class="text-muted" href="#">View all {{ post.comments.count }}
+                                    comment{{ post.comments.count | pluralize}}</a></p>
+                            <!-- Comments Loop -->
+                            {% for comment in post.comments.all %}
+                            <p><strong>{{ comment.user.user.username }}</strong> {{ comment.comment }} </p>
+                            {% endfor %}
+                            <!----------  -->
+
+                            <p><strong>prince_kaya</strong> Barbie 4 life. </p>
+                            <p class="text-muted text-uppercase time">{{ post.created_at | timesince}} ago.</p>
+                        </div>
+                    </div>
+
+                    <div class="comment-input d-none d-md-flex align-items-center justify-content-between mx-2">
+                        <hr>
+                        <div class="emoji"><i class='bx bx-smile'></i></div>
+
+
+                        <div class="comment">
+                            <form action="/">
+                                {% csrf_token %}
+                                <input type="text" name="comment" id="comment" placeholder="Add a comment..." required>
+                                <button type="submit">Post</button>
+                            </form>
+                        </div>
+
+
+                    </div>
+                </div>
+                {% endfor %}
+
+                <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog modal-xl">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-md-7">
+                                        <div class="img-container">
+                                            <img alt="" class="img-fluid">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <div class="comments-container">
+                                            <div class="user-header">
+                                                <div class="post-header-profilepic">
+                                                    <img src="https://townsquare.media/site/812/files/2020/10/nicki-minaj1.jpg?w=1200"
+                                                        alt="" class="img-fluid">
+                                                </div>
+                                                <div class="post-header-username mx-2">
+                                                    <small><strong>nickiminaj</strong></small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!--  -->
             </div>
-            <div class="media-right">
-              <button class="delete"></button>
-            </div>
-          </article>
-          <br>
+
+            <div id="subContent" class="col-lg-4 my-4 d-none d-lg-block pt-3 position-fixed offset-8">
+                <div class="affix">
+                    <div class="logged-user">
+                        <div class="profile-header-left">
+                            <div class="profile-header-profilepic">
+                                <img src="{% static 'img/default.png' %}" alt="" class="img-fluid">
+                            </div>
+                            <div class="post-header-username mx-2 d-flex flex-column">
+                                <small><strong>{{user.username}}</strong></small>
+                                <small class="text-muted">{{user.first_name}} {{user.last_name}}</small>
+                            </div>
+                        </div>
+                        <div class="post-header-right">
+                            <small class="text-primary"><strong><a href="{% url 'logout'%}">Logout</a></strong></small>
+                        </div>
+                    </div>
+                </div>
 
             </div>
         </div>
-      
+
+
+        
     </div>
-  </section>
-  </body>
-</html>
+</div>
+
+
+
+{% endblock %}
