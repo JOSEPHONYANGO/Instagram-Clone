@@ -8,7 +8,7 @@ from cloudinary.models import CloudinaryField
 # Create your models here.
 class Profile(models.Model):
     user=models.OneToOneField(User, on_delete=models.CASCADE,related_name='profile',null=True)
-    name=models.CharField(max_length=50)
+    name=models.CharField(max_length=50,null=False)
     bio=models.TextField(max_length=100,blank=True,null=True)
     profile_pic=CloudinaryField('images')
     created=models.DateField(auto_now_add=True)
@@ -96,6 +96,6 @@ class Follow(models.Model):
         return self.follower
 
 class Like(models.Model):
-    user = models.ForeignKey(User,related_name='likes',on_delete=models.CASCADE)                          
-
+    user = models.ForeignKey(User,related_name='likes',on_delete=models.CASCADE)
+    
 

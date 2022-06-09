@@ -11,6 +11,9 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 from pathlib import Path
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -39,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'bootstrap5',
     'authen',
+    'cloudinary',
 ]
 
 MIDDLEWARE = [
@@ -103,6 +107,12 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+cloudinary.config(
+   cloud_name = 'bishopjoe',
+   api_key = '535635979348921',
+   api_secret = 'z5jAymBVmxJHFFt5E8ETWvYEkQM' 
+)
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
@@ -119,16 +129,20 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [
-    BASE_DIR / 'instagram' / 'static'
+    BASE_DIR / 'static'
 ]
 
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'instagram' / 'media'
+MEDIA_URL = '/images/'
+# MEDIA_ROOT = BASE_DIR / 'images'
+MEDIA_ROOT = BASE_DIR / 'static/images'
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+
 
 LOGIN_REDRECT_URL = 'index'
 LOGOUT_REDRECT_URL = 'login'

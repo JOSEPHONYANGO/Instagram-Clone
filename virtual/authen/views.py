@@ -16,7 +16,7 @@ def index(request):
 
     posts = Post.objects.all()
     all_users = User.objects.exclude(id=request.user.id)
-    liked_posts = [i for i in Post.objects.all() if Like.objects.filter(user = request.user, post=i)]
+    liked_posts = [i for i in Post.objects.all() if Like.objects.filter(user = request.user )]
     followed = [i for i in User.objects.all() if Follow.objects.filter(follower = request.user, followed=i)]
 
     if request.method == 'POST':
@@ -92,16 +92,19 @@ def comment(request, post_id):
 
 @login_required(login_url='login')
 def like(request, post_id):
-    user = request.user
-    post = Post.objects.get(pk=post_id)
-    like = Like.objects.filter(user=user, post=post)
-    if like:
-        like.delete()
-    else:
-        new_like = Like(user=user, post=post)
-        new_like.save()
-    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-
+    try:  
+        user = request.user
+        post = Post.objects.get(pk=post_id)
+        like = Like.objects.filter(user=user, post=post)
+        if like:
+            like.delete()
+        else:
+            new_like = Like(user=user, post=post)
+            new_like.save()
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+    except Exception as e:
+        print (e)
+        return HttpResponse('There was an error')
 @login_required(login_url='login')
 def follow(request, user_id):
     user = request.user
