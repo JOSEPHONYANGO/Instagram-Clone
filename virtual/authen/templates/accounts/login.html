@@ -1,5 +1,6 @@
-{%extends "accounts/base.html"%}
+{%extends "accounts/base.html"%} 
 {% load static %}
+
 {% block content%}
 
 <div class="wrapper">
@@ -8,33 +9,20 @@
             <div class="logo">
                 <img src="{% static 'img/instagram.png' %}" alt="instagram" style="width: 175px;">
             </div>
-            {% if form.errors %}
+            {% for message in messages %}
             <div class="alert-danger py-1 mb-1 rounded">
-                <p class="text-danger m-3">Passwords did not match.</p>
+                <p class="text-danger m-3">{{message}}</p>
             </div>
-            {% endif %}
+            {% endfor %}
             <form class="form" action="" method="POST">
                 {% csrf_token %}
                 <div class="input_field">
-                    {{ form.first_name }}
+                    <input type="text" placeholder="Username" class="input" name="username" id="username">
                 </div>
                 <div class="input_field">
-                    {{ form.last_name }}
+                    <input type="password" placeholder="Password" class="input" name="password" id="password">
                 </div>
-                <div class="input_field">
-                    {{ form.username }}
-                </div>
-                <div class="input_field">
-                    {{ form.email }}
-                </div>
-                <div class="input_field">
-                    {{ form.password1 }}
-                </div>
-                <div class="input_field">
-                    {{ form.password2 }}
-                </div>
-
-                <button class="btn">Sign Up</button>
+                <button type="submit" class="btn">Log In</button>
             </form>
             <div class="or">
                 <div class="line"></div>
@@ -51,7 +39,7 @@
             </div>
         </div>
         <div class="signup">
-            <p>Already have an account? <a href="{% url 'login'%}">Sign in</a></p>
+            <p>Don't have an account? <a href="{% url 'register'%}">Sign up</a></p>
         </div>
         <div class="apps">
             <p>Get the app.</p>
@@ -78,24 +66,9 @@
             </ul>
         </div>
         <div class="copyright">
-            © 2022 INSTAGRAM
+            ©2022 INSTAGRAM
         </div>
     </div>
 </div>
-<script>
 
-    var form_fields = document.getElementsByTagName('input')
-    form_fields[1].placeholder = 'First name';
-    form_fields[2].placeholder = 'Last name';
-    form_fields[3].placeholder = 'Username';
-    form_fields[4].placeholder = 'Email';
-    form_fields[5].placeholder = 'Password';
-    form_fields[6].placeholder = 'Confirm password';
-
-
-    for (var field in form_fields) {
-        form_fields[field].className += 'input'
-        form_fields[field].required = true
-    }
-</script>
 {%endblock%}
